@@ -30,7 +30,7 @@ public class Serie {
 
 
 
-    private Serie(int serieId, String title, int typeId, String description, int seasons, int episodes, String length, String rating, String status, int actorId, int categoryId, int regisseurId, int producerId) {
+    private Serie(int serieId, String title, int typeId, String description, int seasons, int episodes, String length, String rating, String status, int categoryId) {
         this.serieId = serieId;
         this.title = title;
         this.typeId = typeId;
@@ -41,9 +41,7 @@ public class Serie {
         this.rating = rating;
         this.status = status;
         this.categoryId = categoryId;
-        this.actorId = actorId;
-        this.producerId = producerId;
-        this.regisseurId = regisseurId;
+
     }
 
     public String getTitle(){return title;}
@@ -115,16 +113,14 @@ public class Serie {
 
         try {
             Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Serien s INNER JOIN phuber1_Serienkategorie s1 ON s.serien_id = s1.serien_id INNER JOIN phuber1_Kategorie k ON s1.kategorie_id = k.kategorie_id INNER JOIN phuber1_Serienschauspieler fa ON s.serien_id = fa.serien_id\n" +
-                    "INNER JOIN phuber1_Schauspieler a ON fa.schauspieler_id = a.schauspieler_id INNER JOIN phuber1_Serienregisseur sr ON s.serien_id = sr.serien_id INNER JOIN phuber1_Regisseur r ON sr.regisseur_id = r.regisseur_id INNER JOIN phuber1_Serienproduzent sp ON s.serien_id = sp.serien_id " +
-                    "INNER JOIN phuber1_Produzent p ON sp.produzent_id = p.produzent_id WHERE s.serien_id = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Serien s INNER JOIN phuber1_Serienkategorie s1 ON s.serien_id = s1.serien_id INNER JOIN phuber1_Kategorie k ON s1.kategorie_id = k.kategorie_id WHERE s.serien_id = ?");
 
             statement.setInt(1, serieId);
             ResultSet results = statement.executeQuery();
 
             if (results.next()) {
                 result = new Serie(results.getInt("serien_id"), results.getString("title"), results.getInt("type_id"), results.getString("description")
-                        ,results.getInt("staffeln"), results.getInt("folgen"),results.getString("folgenlänge"), results.getString("rating"), results.getString("status"), results.getInt("schauspieler_id"),results.getInt("category_id"), results.getInt("regisseur_id"), results.getInt("produzent_id"));
+                        ,results.getInt("staffeln"), results.getInt("folgen"),results.getString("folgenlänge"), results.getString("rating"), results.getString("status"), results.getInt("category_id"));
             }
 
             results.close();
@@ -140,9 +136,7 @@ public class Serie {
 
         try {
             Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Serien s INNER JOIN phuber1_Serienkategorie s1 ON s.serien_id = s1.serien_id INNER JOIN phuber1_Kategorie k ON s1.kategorie_id = k.kategorie_id INNER JOIN phuber1_Serienschauspieler fa ON s.serien_id = fa.serien_id\n" +
-                    "INNER JOIN phuber1_Schauspieler a ON fa.schauspieler_id = a.schauspieler_id INNER JOIN phuber1_Serienregisseur sr ON s.serien_id = sr.serien_id INNER JOIN phuber1_Regisseur r ON sr.regisseur_id = r.regisseur_id INNER JOIN phuber1_Serienproduzent sp ON s.serien_id = sp.serien_id " +
-                    "INNER JOIN phuber1_Produzent p ON sp.produzent_id = p.produzent_id WHERE s1.kategorie_id = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Serien s INNER JOIN phuber1_Serienkategorie s1 ON s.serien_id = s1.serien_id INNER JOIN phuber1_Kategorie k ON s1.kategorie_id = k.kategorie_id WHERE s1.kategorie_id = ?");
             statement.setInt(1,categoryId);
 
             ResultSet results = statement.executeQuery();
@@ -150,7 +144,7 @@ public class Serie {
             while (results.next()) {
 
                 result.add(new Serie(results.getInt("serien_id"), results.getString("title"), results.getInt("type_id"), results.getString("description")
-                         ,results.getInt("staffeln"), results.getInt("folgen"), results.getString("folgenlänge"), results.getString("rating"), results.getString("status"), results.getInt("schauspieler_id"), results.getInt("kategorie_id"), results.getInt("regisseur_id"), results.getInt("produzent_id")));
+                         ,results.getInt("staffeln"), results.getInt("folgen"), results.getString("folgenlänge"), results.getString("rating"), results.getString("status"), results.getInt("kategorie_id")));
             }
 
             results.close();
