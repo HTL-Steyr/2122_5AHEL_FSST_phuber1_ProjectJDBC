@@ -50,10 +50,6 @@ public class Film {
         return film;
     }
 
-    public int getTypeId() {
-        return typeId;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -98,40 +94,7 @@ public class Film {
         this.status = status;
     }
 
-    public void setCategory(Kategorie category) {
-        this.category = category;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-
     public Film() {
-    }
-
-    public static Film getById(int filmId) {
-        Film result = null;
-
-        try {
-            Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Filme f INNER JOIN phuber1_Filmkategorie f1 ON f.film_id = f1.film_id INNER JOIN phuber1_Kategorie k ON f1.category_id = k.kategorie_id WHERE f.film_id = ?");
-
-            statement.setInt(1, filmId);
-            ResultSet results = statement.executeQuery();
-
-            if (results.next()) {
-                result = new Film(results.getInt("film_id"), results.getString("title"), results.getInt("type_id"), results.getString("description"),
-                        results.getInt("länge"), results.getString("rating"), results.getString("status"), results.getInt("category_id"));
-            }
-
-            results.close();
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     public static ObservableList<Film> loadAll(int categoryId) {
@@ -139,7 +102,7 @@ public class Film {
 
         try {
             Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct /*f.*/*/*, f1.category_id*/ FROM phuber1_Filme f INNER JOIN phuber1_Filmkategorie f1 ON f.film_id = f1.film_id INNER JOIN phuber1_Kategorie k ON f1.category_id = k.kategorie_id WHERE f1.category_id = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Filme f INNER JOIN phuber1_Filmkategorie f1 ON f.film_id = f1.film_id INNER JOIN phuber1_Kategorie k ON f1.category_id = k.kategorie_id WHERE f1.category_id = ?");
 
 
             statement.setInt(1, categoryId);
@@ -168,83 +131,6 @@ public class Film {
         this.producerId = producerId;
         this.regisseurId = regisseurId;
     }
-
-    public Schauspieler getActor() {
-        if (actor == null) {
-            actor = (Schauspieler) Schauspieler.getAllByFilmId(this.actorId);
-        }
-        return actor;
-    }
-
-    public Produzent getProduzent() {
-        if (produzent == null) {
-            produzent = (Produzent) Produzent.getAllByFilmId(this.producerId);
-        }
-        return produzent;
-    }
-
-    public Regisseur getRegisseur() {
-        if (regisseur == null) {
-            regisseur = Regisseur.getById(this.regisseurId);
-        }
-        return regisseur;
-    }
-
-    public void setActorId(int actorId) {
-        this.actorId = actorId;
-    }
-
-    public void setProducerId(int producerId) {
-        this.producerId = producerId;
-    }
-
-    public void setRegisseurId(int regisseurId) {
-        this.regisseurId = regisseurId;
-    }
-
-    public void setActor(Schauspieler actor) {
-        this.actor = actor;
-    }
-
-    public void setRegisseur(Regisseur regisseur) {
-        this.regisseur = regisseur;
-    }
-
-    public void setProduzent(Produzent produzent) {
-        this.produzent = produzent;
-    }
-
-    public static Film loadInfo(int filmId) {
-
-        Film f = null;
-        //ObservableList<Film> result = FXCollections.observableArrayList();
-
-        try {
-            Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct /*f.*/*/*, f1.category_id*/ FROM phuber1_Filme f \n" +
-                    "INNER JOIN phuber1_Filmschauspieler fa ON f.film_id = fa.film_id INNER JOIN phuber1_Schauspieler a ON fa.schauspieler_id = a.schauspieler_id INNER JOIN phuber1_Filmproduzent fp ON f.film_id = fp.film_id INNER JOIN phuber1_Produzent p ON fp.produzent_id = p.produzent_id\n" +
-                    "INNER JOIN phuber1_Filmregisseur fr ON f.film_id = fr.film_id INNER JOIN phuber1_Regisseur r ON fr.regisseur_id = r.regisseur_id WHERE f.film_id = ?");
-
-
-            statement.setInt(1, filmId);
-
-            ResultSet results = statement.executeQuery();
-
-            while (results.next()) {
-
-                f = new Film(results.getInt("schauspieler_id"), results.getInt("regisseur_id"), results.getInt("produzent_id"));
-            }
-
-            results.close();
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return f;
-    }
-
 
     public String toString() {
         return film;

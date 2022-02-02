@@ -19,12 +19,6 @@ public class Schauspieler {
         this.lastName = lastName;
     }
 
-    public int getActorId(){return actorId;}
-
-    public String getFirstName(){return firstName;}
-
-    public String getLastName(){return lastName;}
-
     public static ObservableList<Schauspieler> getAllByFilmId(int filmId) {
         ObservableList<Schauspieler> result = FXCollections.observableArrayList();
 
@@ -53,7 +47,7 @@ public class Schauspieler {
 
         try {
             Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Serien f INNER JOIN phuber1_Serienschauspieler fp ON f.serien_id = fp.serien_id INNER JOIN phuber1_Schauspieler p ON fp.schauspieler_id = p.schauspieler_id WHERE f.serien_id = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Serien s INNER JOIN phuber1_Serienschauspieler sp ON s.serien_id = sp.serien_id INNER JOIN phuber1_Schauspieler p ON sp.schauspieler_id = p.schauspieler_id WHERE s.serien_id = ?");
 
             statement.setInt(1, serieId);
             ResultSet results = statement.executeQuery();

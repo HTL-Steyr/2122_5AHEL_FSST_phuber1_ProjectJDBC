@@ -1,9 +1,6 @@
 package Film;
 
-import Model.Film;
-import Model.Kategorie;
-import Model.Produzent;
-import Model.Schauspieler;
+import Model.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -56,11 +53,11 @@ public class FilmController {
             statusLabel.setText(f.getStatus());
 
         }
-        Film f2 = Film.loadInfo(f.getFilmId());
         producerComboBox.setItems(Produzent.getAllByFilmId(f.getFilmId()));
-        regisseurLabel.setText(f2.getRegisseur().getFirstName() + " " + f2.getRegisseur().getLastName());
+        regisseurLabel.setText(String.valueOf(Regisseur.getAllByFilmId(f.getFilmId())));
         actorComboBox.setItems(Schauspieler.getAllByFilmId(f.getFilmId()));
     }
+
 
 
     public void bearbeitenButtonClicked(ActionEvent actionEvent) {

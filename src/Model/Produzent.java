@@ -19,12 +19,6 @@ public class Produzent {
         this.lastName = lastName;
     }
 
-    public int getProducerId(){return producerId;}
-
-    public String getFirstName(){return firstName;}
-
-    public String getLastName(){return lastName;}
-
     public static ObservableList<Produzent> getAllByFilmId(int filmId) {
         ObservableList<Produzent> result = FXCollections.observableArrayList();
 
@@ -53,7 +47,7 @@ public class Produzent {
 
         try {
             Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Serien f INNER JOIN phuber1_Serienproduzent fp ON f.serien_id = fp.serien_id INNER JOIN phuber1_Produzent p ON fp.produzent_id = p.produzent_id WHERE f.serien_id = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Serien s INNER JOIN phuber1_Serienproduzent sp ON s.serien_id = sp.serien_id INNER JOIN phuber1_Produzent p ON sp.produzent_id = p.produzent_id WHERE s.serien_id = ?");
 
             statement.setInt(1, serieId);
             ResultSet results = statement.executeQuery();

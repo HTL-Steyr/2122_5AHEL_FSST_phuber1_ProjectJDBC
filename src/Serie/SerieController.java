@@ -37,7 +37,7 @@ public class SerieController {
         serieListView.setItems(k.loadSerie());
     }
 
-    public void filmListViewClicked(MouseEvent mouseEvent) {
+    public void serieListViewClicked(MouseEvent mouseEvent) {
         Serie s = serieListView.getSelectionModel().getSelectedItem();
 
         if (s != null) {
@@ -55,10 +55,9 @@ public class SerieController {
             folgenlängeLabel.setText(s.getLength());
             statusLabel.setText(s.getStatus());
         }
-        Serie s2 = Serie.loadInfo(s.getSerieId());
-        producerComboBox.setItems(Produzent.getAllByFilmId(s.getSerieId()));
-        regisseurLabel.setText(s2.getRegisseur().getFirstName() + " " + s2.getRegisseur().getLastName());
-        actorComboBox.setItems(Schauspieler.getAllByFilmId(s.getSerieId()));
+        producerComboBox.setItems(Produzent.getAllBySerieId(s.getSerieId()));
+        regisseurLabel.setText(String.valueOf(Regisseur.getAllBySerieId(s.getSerieId())));
+        actorComboBox.setItems(Schauspieler.getAllBySerieId(s.getSerieId()));
     }
 
     public void bearbeitenButtonClicked(ActionEvent actionEvent) {

@@ -16,23 +16,17 @@ public class Regisseur {
         this.lastName = lastName;
     }
 
-    public int getRegisseurId(){return regisseurId;}
-
-    public String getFirstName(){return firstName;}
-
-    public String getLastName(){return lastName;}
-
-    public static Regisseur getById(int regisseurId) {
-        Regisseur result = null;
+    public static Regisseur getAllByFilmId(int filmId) {
+       Regisseur result = null;
 
         try {
             Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Regisseur WHERE regisseur_id = ?");
+            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Filme f INNER JOIN phuber1_Filmregisseur fr ON f.film_id = fr.film_id INNER JOIN phuber1_Regisseur r ON fr.regisseur_id = r.regisseur_id WHERE f.film_id = ?");
 
-            statement.setInt(1, regisseurId);
+            statement.setInt(1, filmId);
             ResultSet results = statement.executeQuery();
 
-            if (results.next()) {
+            while (results.next()) {
                 result = new Regisseur(results.getInt("regisseur_id"), results.getString("first_name"), results.getString("last_name"));
             }
 
@@ -44,6 +38,30 @@ public class Regisseur {
         }
         return result;
     }
+
+    public static Regisseur getAllBySerieId(int serieId) {
+        Regisseur result = null;
+
+        try {
+            Connection c = Database.getInstance();
+            PreparedStatement statement = c.prepareStatement("SELECT * FROM phuber1_Serien s INNER JOIN phuber1_Serienregisseur sr ON s.serien_id = sr.serien_id INNER JOIN phuber1_Regisseur r ON sr.regisseur_id = r.regisseur_id WHERE s.serien_id = ?");
+
+            statement.setInt(1, serieId);
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                result = new Regisseur(results.getInt("regisseur_id"), results.getString("first_name"), results.getString("last_name"));
+            }
+
+            results.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public String toString(){
         return regisseurId + " - " + firstName + " " + lastName;

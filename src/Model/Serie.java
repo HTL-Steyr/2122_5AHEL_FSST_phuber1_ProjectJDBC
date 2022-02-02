@@ -1,6 +1,5 @@
 package Model;
 
-import com.mysql.jdbc.PacketTooBigException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -96,41 +95,9 @@ public class Serie {
         this.status = status;
     }
 
-    public void setCategory(Kategorie category) {
-        this.category = category;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-
     public Serie() {
     }
 
-    public static Serie getById(int serieId) {
-        Serie result = null;
-
-        try {
-            Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct * FROM phuber1_Serien s INNER JOIN phuber1_Serienkategorie s1 ON s.serien_id = s1.serien_id INNER JOIN phuber1_Kategorie k ON s1.kategorie_id = k.kategorie_id WHERE s.serien_id = ?");
-
-            statement.setInt(1, serieId);
-            ResultSet results = statement.executeQuery();
-
-            if (results.next()) {
-                result = new Serie(results.getInt("serien_id"), results.getString("title"), results.getInt("type_id"), results.getString("description")
-                        ,results.getInt("staffeln"), results.getInt("folgen"),results.getString("folgenlänge"), results.getString("rating"), results.getString("status"), results.getInt("category_id"));
-            }
-
-            results.close();
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
     public static ObservableList<Serie> loadAll(int categoryId) {
         ObservableList<Serie> result = FXCollections.observableArrayList();
 
@@ -161,82 +128,6 @@ public class Serie {
         this.actorId = actorId;
         this.producerId = producerId;
         this.regisseurId = regisseurId;
-    }
-
-    public Schauspieler getActor() {
-        if (actor == null) {
-            actor = (Schauspieler) Schauspieler.getAllByFilmId(this.actorId);
-        }
-        return actor;
-    }
-
-    public Produzent getProduzent() {
-        if (produzent == null) {
-            produzent = (Produzent) Produzent.getAllByFilmId(this.producerId);
-        }
-        return produzent;
-    }
-
-    public Regisseur getRegisseur() {
-        if (regisseur == null) {
-            regisseur = Regisseur.getById(this.regisseurId);
-        }
-        return regisseur;
-    }
-
-    public void setActorId(int actorId) {
-        this.actorId = actorId;
-    }
-
-    public void setProducerId(int producerId) {
-        this.producerId = producerId;
-    }
-
-    public void setRegisseurId(int regisseurId) {
-        this.regisseurId = regisseurId;
-    }
-
-    public void setActor(Schauspieler actor) {
-        this.actor = actor;
-    }
-
-    public void setRegisseur(Regisseur regisseur) {
-        this.regisseur = regisseur;
-    }
-
-    public void setProduzent(Produzent produzent) {
-        this.produzent = produzent;
-    }
-
-    public static Serie loadInfo(int serieId) {
-
-        Serie s = null;
-        //ObservableList<Film> result = FXCollections.observableArrayList();
-
-        try {
-            Connection c = Database.getInstance();
-            PreparedStatement statement = c.prepareStatement("SELECT distinct /*f.*/*/*, f1.category_id*/ FROM phuber1_Serien f \n" +
-                    "INNER JOIN phuber1_Serienschauspieler fa ON f.serien_id = fa.serien_id INNER JOIN phuber1_Schauspieler a ON fa.schauspieler_id = a.schauspieler_id INNER JOIN phuber1_Serienproduzent fp ON f.serien_id = fp.serien_id INNER JOIN phuber1_Produzent p ON fp.produzent_id = p.produzent_id\n" +
-                    "INNER JOIN phuber1_Serienregisseur fr ON f.serien_id = fr.serien_id INNER JOIN phuber1_Regisseur r ON fr.regisseur_id = r.regisseur_id WHERE f.serien_id = ?");
-
-
-            statement.setInt(1, serieId);
-
-            ResultSet results = statement.executeQuery();
-
-            while (results.next()) {
-
-                s = new Serie(results.getInt("schauspieler_id"), results.getInt("regisseur_id"), results.getInt("produzent_id"));
-            }
-
-            results.close();
-            statement.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return s;
     }
 
     public String toString(){
