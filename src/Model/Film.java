@@ -37,9 +37,6 @@ public class Film {
         this.categoryId = categoryId;
 
 
-        /**
-         * laden aller schauspieler, produzenten und regisseure
-         */
     }
 
     public int getFilmId() {

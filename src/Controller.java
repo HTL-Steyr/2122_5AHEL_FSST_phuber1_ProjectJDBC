@@ -9,6 +9,10 @@ public class Controller {
     public Button filmButton;
     public Button SerieButton;
 
+    //When launching the program, a scene with two buttons opens.
+    //One button for movies and one button for series
+    //If one button gets clicked, another scene opens with all the movies or all series
+
     public void filmButtonClicked(ActionEvent actionEvent) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Film/filmscene.fxml"));

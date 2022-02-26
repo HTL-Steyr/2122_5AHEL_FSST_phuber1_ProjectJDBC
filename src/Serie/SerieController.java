@@ -32,12 +32,12 @@ public class SerieController {
     }
 
 
-    public void categoryListViewClicked(MouseEvent mouseEvent) {
+    public void categoryListViewClicked(MouseEvent mouseEvent) { //if you click on a category in the list, all series assigned to the category are loaded in the serieListView
         Kategorie k = categoryListView.getSelectionModel().getSelectedItem();
         serieListView.setItems(k.loadSerie());
     }
 
-    public void serieListViewClicked(MouseEvent mouseEvent) {
+    public void serieListViewClicked(MouseEvent mouseEvent) { //clicking on a series will load all the information about the series
         Serie s = serieListView.getSelectionModel().getSelectedItem();
 
         if (s != null) {
@@ -60,7 +60,7 @@ public class SerieController {
         actorComboBox.setItems(Schauspieler.getAllBySerieId(s.getSerieId()));
     }
 
-    public void bearbeitenButtonClicked(ActionEvent actionEvent) {
+    public void bearbeitenButtonClicked(ActionEvent actionEvent) { //if the Bearbeiten button gets clicked, the information about the series can be edited
         Serie f = serieListView.getSelectionModel().getSelectedItem();
         f.setSerieId(Integer.parseInt(SerieIDLabel.getText()));
         f.setTitle(SerieLabel.getText());
@@ -74,7 +74,7 @@ public class SerieController {
         f.bearbeitenSerie();
     }
 
-    public void hinzufügenButtonClicked(ActionEvent actionEvent) {
+    public void hinzufügenButtonClicked(ActionEvent actionEvent) { //when the Hinzufügen button gets clicked, all labels and text fields gets set to " "
         SerieIDLabel.setText("");
         SerieLabel.setText("");
         folgenlängeLabel.setText("");
@@ -89,13 +89,13 @@ public class SerieController {
         regisseurLabel.setText("");
     }
 
-    public void löschenButtonClicked(ActionEvent actionEvent) {
+    public void löschenButtonClicked(ActionEvent actionEvent) { //if the Löschen button gets clicked, the series gets deleted from the databank
         Serie f = serieListView.getSelectionModel().getSelectedItem();
 
         f.deleteSerie(f.getSerieId());
     }
 
-    public void speichernButtonClicked(ActionEvent actionEvent) {
+    public void speichernButtonClicked(ActionEvent actionEvent) { //if the Speichern button gets clicked, a new series will be added
         Serie f = new Serie();
         f.setSerieId(Integer.parseInt(SerieIDLabel.getText()));
         f.setTitle(SerieLabel.getText());

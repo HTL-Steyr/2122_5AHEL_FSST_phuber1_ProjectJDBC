@@ -31,12 +31,12 @@ public class FilmController {
 
     }
 
-    public void categoryListViewClicked(MouseEvent mouseEvent) {
+    public void categoryListViewClicked(MouseEvent mouseEvent) { //if you click on a category in the list, all films assigned to the category are loaded in the filmListView
         Kategorie k = categoryListView.getSelectionModel().getSelectedItem();
         filmListView.setItems(k.loadFilms());
     }
 
-    public void filmListViewClicked(MouseEvent mouseEvent) {
+    public void filmListViewClicked(MouseEvent mouseEvent) { //clicking on a movie will load all the information about the movie
         Film f = filmListView.getSelectionModel().getSelectedItem();
 
         if (f != null) {
@@ -60,7 +60,7 @@ public class FilmController {
 
 
 
-    public void bearbeitenButtonClicked(ActionEvent actionEvent) {
+    public void bearbeitenButtonClicked(ActionEvent actionEvent) { //if the Bearbeiten button gets clicked, the information about the film can be edited
         Film f = filmListView.getSelectionModel().getSelectedItem();
         f.setFilmId(Integer.parseInt(filmIDLabel.getText()));
         f.setFilm(filmLabel.getText());
@@ -72,7 +72,7 @@ public class FilmController {
         f.bearbeitenFilm();
     }
 
-    public void hinzufügenButtonClicked(ActionEvent actionEvent) {
+    public void hinzufügenButtonClicked(ActionEvent actionEvent) { //when the Hinzufügen button gets clicked, all labels and text fields gets set to " "
         filmIDLabel.setText("");
         filmLabel.setText("");
         lengthLabel.setText("");
@@ -85,13 +85,13 @@ public class FilmController {
         regisseurLabel.setText("");
     }
 
-    public void löschenButtonClicked(ActionEvent actionEvent) {
+    public void löschenButtonClicked(ActionEvent actionEvent) { //if the Löschen button gets clicked, the movie gets deleted from the databank
         Film f = filmListView.getSelectionModel().getSelectedItem();
 
         f.deleteFilm(f.getFilmId());
     }
 
-    public void speicherButtonClicked(ActionEvent actionEvent) {
+    public void speicherButtonClicked(ActionEvent actionEvent) { //if the Speichern button gets clicked, a new movie will be added
         Film f = new Film();
         f.setFilmId(Integer.parseInt(filmIDLabel.getText()));
         f.setFilm(filmLabel.getText());
