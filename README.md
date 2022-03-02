@@ -1,6 +1,7 @@
 # 2122_5AHEL_FSST_phuber1_ProjectJDBC
 
 Beschreibung:
+
 Startet man das Programm, kann man zwischen Serien und Filmen auswählen. Danach öffnet sich eine zweite Scene und man kann eine Kategorie wählen. 
 Je nachdem, welche Kategorie man gewählt hat, werden Film in eine andere Liste geladen.
 Danach kann man einen Film auswählen und es werden Informationen über den Film in TextFields ausgegeben.
